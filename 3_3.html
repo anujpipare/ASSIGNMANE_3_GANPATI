@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Exploration</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: url('') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff6348; /* Main title color */
+        }
+
+        button {
+            margin: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #28a745; /* Green button color */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #218838; /* Darker shade for hover effect */
+        }
+
+        img {
+            display: block;
+            margin: 25px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        #itemCount {
+            text-align: center;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="page-title">Unleash Your Creativity!</h1>
+    <div class="button-group">
+        <button id="modifyTextBtn">Change Message</button>
+        <button id="switchImageBtn">Change Image</button>
+        <button id="addItemBtn">Add Creative Item</button>
+        <button id="removeItemBtn">Remove Last Item</button>
+    </div>
+
+    <img id="dynamicImage" src="1.jpg" alt="Creative Feature">
+    <div id="itemCount">Item Count: 1</div>
+    <ul id="itemList">
+        <li>Sample Creative Item</li>
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let textState = false; 
+            let itemCount = 1; // Initialize item count
+
+            // Change title text and color on button click
+            document.getElementById('modifyTextBtn').addEventListener('click', function () {
+                const pageTitle = document.getElementById('page-title');
+                if (textState) {
+                    pageTitle.innerHTML = "Ganpati Bappa!";
+                    pageTitle.style.color = '#ff6348'; 
+                } else {
+                    pageTitle.innerHTML = "Morya!";
+                    pageTitle.style.color = '#ffc107'; 
+                }
+                textState = !textState; 
+            });
+
+            // Cycle through image list on button click
+            let imageSources = ["1.jpg", "2.jpg", "3.jpg"];
+            let currentIndex = 0;
+
+            document.getElementById('switchImageBtn').addEventListener('click', function () {
+                currentIndex = (currentIndex + 1) % imageSources.length;
+                document.getElementById('dynamicImage').src = imageSources[currentIndex];
+            });
+
+            // Add a new item to the list
+            document.getElementById('addItemBtn').addEventListener('click', function () {
+                let listItem = document.createElement('li');
+                let listItemText = document.createTextNode('Another Creative Item');
+                listItem.appendChild(listItemText);
+                document.getElementById('itemList').appendChild(listItem);
+                itemCount++; // Increment the item count
+                updateItemCount();
+            });
+
+            // Remove the last item from the list with confirmation
+            document.getElementById('removeItemBtn').addEventListener('click', function () {
+                let itemList = document.getElementById('itemList');
+                if (itemList.lastChild) {
+                    if (confirm("Are you sure you want to remove the last item?")) {
+                        itemList.removeChild(itemList.lastChild);
+                        itemCount--; // Decrement the item count
+                        updateItemCount();
+                    }
+                }
+            });
+
+            // Function to update the item count display
+            function updateItemCount() {
+                document.getElementById('itemCount').innerText = "Item Count: " + itemCount;
+            }
+
+            // jQuery to change button text and alt attribute
+            $(document).ready(function () {
+                $("#modifyTextBtn").click(function () {
+                    $(this).text("Message Changed!");
+                });
+
+                $("#dynamicImage").attr("alt", "Current Creative Image Display");
+            });
+        });
+    </script>
+</body>
+
+</html>
